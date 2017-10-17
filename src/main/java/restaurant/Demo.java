@@ -1,5 +1,6 @@
 package restaurant;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import helper.Helper;
@@ -15,9 +16,11 @@ public class Demo {
 		Manager manager = new Manager(helper);
 		Waiter waiter = new Waiter(helper);
 
-		// manager.addCourses("pizza", "Italian", 10.09);
+	//	 manager.addToMenu("pizza", "Italian", 10.09);
          //  manager.removeFromMenuByName("pizza");
-		 waiter.presentMenu();
+//	helper.insertDessert("tiramisu", BigDecimal.valueOf(10.09));
+
+		// waiter.presentMenu();
 
 		helper.closeConnection();
 	}
