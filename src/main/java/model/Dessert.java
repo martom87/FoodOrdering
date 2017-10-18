@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 public class Dessert {
 
 
-  int id;
-  String name;
-  BigDecimal price;
+    int id;
+    String name;
+    Double price;
 
-    public Dessert(int id, String name, BigDecimal price) {
+    public Dessert(int id, String name, Double price) {
         this.id = id;
         this.name = name;
         this.price = price;
@@ -31,11 +31,11 @@ public class Dessert {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 
