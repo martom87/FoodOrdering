@@ -58,9 +58,9 @@ public class Waiter {
         }
     }
 
-public void addToBill (){
+    public void addToBill() {
 
-}
+    }
 
 }
 

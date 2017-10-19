@@ -12,7 +12,6 @@ import java.util.List;
 import model.Course;
 import model.Dessert;
 import model.Drink;
-import model.Order;
 
 
 public class Helper {
@@ -137,24 +136,35 @@ public class Helper {
 
     }
 
-    // TODO: 2017-10-18  fix this 
-    public Order selectOrder(String name) {
-        double price = 0;
-        Order order = new Order(name, price);
+
+    public Course selectCourseByName(String name) {
+        Course course = null;
         try {
-            PreparedStatement prepStmt = conn.prepareStatement("SELECT * FROM desserts WHERE name = ? ");
-             name = "bigos";
-       //     prepStmt.setString(1, name);
-            prepStmt.setDouble(1, price);
-            prepStmt.execute();
+
+
+            ResultSet result = stat.executeQuery("SELECT * FROM courses WHERE name = '" + name + "'");
+
+            int id;
+            String cousine;
+            double price;
+
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                cousine = result.getString("cousine");
+                price = result.getDouble("price");
+                course = new Course(id, name, cousine, price);
+            }
+
         } catch (SQLException e) {
-            System.err.println("Dessert insert Error");
             e.printStackTrace();
             return null;
         }
-        return order;
-    }
 
+        return course;
+
+
+    }
 
 
     public boolean insertDessert(String name, double price) {
@@ -169,6 +179,20 @@ public class Helper {
             return false;
         }
         return true;
+    }
+
+    public void deleteDessertByName(String name) {
+        try {
+            PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM desserts WHERE name = ?");
+            prepStmt.setString(1, name);
+
+            prepStmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Course insert Error");
+            e.printStackTrace();
+
+        }
+
     }
 
     public List<Dessert> selectDesserts() {
@@ -196,20 +220,35 @@ public class Helper {
 
     }
 
-
-    public void deleteDessertByName(String name) {
+    public Dessert selectDessertByName(String name) {
+        Dessert dessert = null;
         try {
-            PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM desserts WHERE name = ?");
-            prepStmt.setString(1, name);
 
-            prepStmt.executeUpdate();
+
+            ResultSet result = stat.executeQuery("SELECT * FROM desserts WHERE name = '" + name + "'");
+
+            int id;
+
+            double price;
+
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                price = result.getDouble("price");
+                dessert = new Dessert(id, name, price);
+            }
+
         } catch (SQLException e) {
-            System.err.println("Course insert Error");
             e.printStackTrace();
-
+            return null;
         }
 
+        return dessert;
+
+
     }
+
+
 // Drinks
 
     public boolean insertDrink(String name, double price) {
@@ -270,7 +309,7 @@ public class Helper {
         try {
             conn.close();
         } catch (SQLException e) {
-            System.err.println("Problem z zamknieciem polaczenia");
+            System.err.println("Close Connection error");
             e.printStackTrace();
         }
     }
