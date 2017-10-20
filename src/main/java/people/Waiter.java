@@ -4,10 +4,7 @@ import java.util.List;
 import java.util.Scanner;
 
 import helper.Helper;
-import model.Course;
-import model.Dessert;
-import model.Drink;
-import model.Order;
+import model.*;
 
 
 public class Waiter {
@@ -92,8 +89,8 @@ public class Waiter {
 
                 case 1:
                     casenumb = 1;
+                    System.out.println(" Please select number of course you would like to eat from the list below ");
                     waiter.presentCourses();
-                    System.out.println(" Pleas select number of course you would like to eat from the list above ");
                     int idCourse = sc.nextInt();
                     Course course = helper.selectCourseById(idCourse);
                     helper.insertOrder(course.getName(), course.getPrice());
@@ -102,8 +99,8 @@ public class Waiter {
 
                 case 2:
                     casenumb = 2;
+                    System.out.println("Please select number of dessert you would like to eat from the list below");
                     waiter.presentDesserts();
-                    System.out.println("Pleas select number of dessert you would like to eat from the list above");
                     int idDessert = sc.nextInt();
                     Dessert dessert = helper.selectDessertById(idDessert);
                     helper.insertOrder(dessert.getName(), dessert.getPrice());
@@ -112,20 +109,43 @@ public class Waiter {
 
                 case 3:
                     casenumb = 3;
-
+                    System.out.println("Please select number of drink you would like to eat from the list below");
                     waiter.presentDrinks();
-                    System.out.println("Pleas select number of drink you would like to eat from the list above");
                     int idDrink = sc.nextInt();
                     Drink drink = helper.selectDrinkById(idDrink);
                     helper.insertOrder(drink.getName(), drink.getPrice());
                     System.out.println("You have ordered :" + "" + drink);
+                    // ice or lemon
+                    System.out.println("Would you like lemon or ice to your " + drink.getName());
+
+                    int wantIceorLemon = sc.nextInt();
+                    switch (wantIceorLemon) {
+
+                        case 1:
+                            wantIceorLemon = 1;
+                            Addition addition = helper.selectAdditionById(1);
+                            helper.insertOrder(addition.getName(), addition.getPrice());
+                            System.out.println("You have ordered additional lemon to your " + "" + drink.getName());
+                            break;
+                        case 2:
+                            wantIceorLemon = 2;
+                            addition = helper.selectAdditionById(2);
+                            helper.insertOrder(addition.getName(), addition.getPrice());
+                            System.out.println("You have ordered additional ice to your " + "" + drink.getName());
+                            break;
+                        case 3:
+                            wantIceorLemon = 3;
+                            System.out.println("Your drink has no additions");
+                            break;
+                    }
+
                     break;
 
                 case 4:
                     casenumb = 4;
                     stillOrdering = 2;
                     waiter.presentOrder();
-                    sc.close();
+                    System.out.println("-----------------------");
                     System.out.println("-----------------------");
                     System.out.println("Your Bill is" + ":" + helper.calcBill() + " " + "PLN");
                     helper.resetOrdersTable();

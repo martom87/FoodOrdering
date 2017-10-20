@@ -27,7 +27,7 @@ public class Demo {
         manager.addCourseToMenu("bigos", "Polish", 5.29);
         manager.addCourseToMenu("tortilla", "Mexican", 7.80);
         manager.addDessertToMenu("tiramisu", 9.99);
-        manager.addDessertToMenu("ice cream", 8.75);
+        manager.addDessertToMenu("ice cream", 8.75);1
         manager.addDessertToMenu("apfelstrudel", 4.26);
         manager.addDrinkToMenu("coke", 2.26);
         manager.addDrinkToMenu("fanta", 0.46);
@@ -35,13 +35,14 @@ public class Demo {
         manager.addDrinkToMenu("lemon", 0.26);
         manager.addDrinkToMenu("ice", 0.36);*/
 
-        //  manager.removeFromMenuByName("pizza");
+       // helper.insertAddition("lemon", 0.26);
+       // helper.insertAddition("ice", 0.16);
+
+       // manager.removeFromMenuByName("pizza");
 
 
+          waiter.makeAnOrder();
 
-
-
-         waiter.makeAnOrder();
 
 
         helper.closeConnection();

@@ -9,6 +9,7 @@ public class Customer {
         this.sc = sc;
     }
 
+    // TODO handle the input exception here
     public int doSomething() {
         sc = new Scanner(System.in);
         int casenumb = sc.nextInt();

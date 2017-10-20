@@ -9,10 +9,7 @@ import java.sql.Statement;
 import java.util.LinkedList;
 import java.util.List;
 
-import model.Course;
-import model.Dessert;
-import model.Drink;
-import model.Order;
+import model.*;
 
 public class Helper {
     private Connection conn;
@@ -47,11 +44,13 @@ public class Helper {
         String createDesserts = "CREATE TABLE IF NOT EXISTS desserts (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
         String createDrinks = "CREATE TABLE IF NOT EXISTS drinks (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
         String createOrders = "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
+        String createAdditions = "CREATE TABLE IF NOT EXISTS additions (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
         try {
             stat.execute(createCourses);
             stat.execute(createDesserts);
             stat.execute(createDrinks);
             stat.execute(createOrders);
+            stat.execute(createAdditions);
         } catch (SQLException e) {
             System.err.println("Table Creation Error");
             e.printStackTrace();
@@ -66,11 +65,13 @@ public class Helper {
         String resetDesserts = "DROP TABLE IF EXISTS desserts";
         String resetDrinks = "DROP TABLE IF EXISTS drinks";
         String resetOrders = "DROP TABLE IF EXISTS orders";
+        String resetAdditions = "DROP TABLE IF EXISTS additions";
         try {
             stat.execute(resetCourses);
             stat.execute(resetDesserts);
             stat.execute(resetDrinks);
             stat.execute(resetOrders);
+            stat.execute(resetAdditions);
         } catch (SQLException e) {
             System.err.println("Table Creation Error");
             e.printStackTrace();
@@ -372,6 +373,39 @@ public class Helper {
         }
     }
 
+    // Additions
+    public boolean insertAddition(String name, double price) {
+        try {
+            PreparedStatement prepStmt = conn.prepareStatement("INSERT INTO additions values (NULL, ?, ?);");
+            prepStmt.setString(1, name);
+            prepStmt.setDouble(2, price);
+            prepStmt.execute();
+        } catch (SQLException e) {
+            System.err.println("Addition insert Error");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public Addition selectAdditionById(int id) {
+        Addition addition = null;
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM additions WHERE id = '" + id + "'");
+            String name;
+            double price;
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                price = result.getDouble("price");
+                addition = new Addition(id, name, price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return addition;
+    }
     // Orders
     public boolean insertOrder(String name, double price) {
         try {
