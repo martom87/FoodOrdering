@@ -53,6 +53,6 @@ public class Course {
 
 	@Override
 	public String toString() {
-		return "[" + id + "] - " + name + " " + cousine + " - " + price;
+		return "[" + id + "] - " + name + " " + "(" + cousine + ")" + " - " + price + " " + "PLN";
 	}
 }

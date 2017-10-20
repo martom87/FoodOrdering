@@ -37,6 +37,6 @@ public class Drink {
 
     @Override
     public String toString() {
-        return "[" + id + "] - " + name + "  - " + price;
+        return "[" + id + "] - " + name + "  - " + price + " " + "PLN";
     }
 }

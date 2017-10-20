@@ -1,5 +1,18 @@
 package people;
 
-public class Customer {
+import java.util.Scanner;
 
+public class Customer {
+    Scanner sc;
+
+    public Customer(Scanner sc) {
+        this.sc = sc;
+    }
+
+    public int doSomething() {
+        sc = new Scanner(System.in);
+        int casenumb = sc.nextInt();
+
+        return casenumb;
+    }
 }

@@ -12,7 +12,7 @@ import java.util.List;
 import model.Course;
 import model.Dessert;
 import model.Drink;
-
+import model.Order;
 
 public class Helper {
     private Connection conn;
@@ -20,9 +20,7 @@ public class Helper {
 
     public static final String DRIVER = "org.sqlite.JDBC";
     public static final String DB_URL = "jdbc:sqlite:helper.db";
-    final String ENABLE_FOREIGN_KEYS = "PRAGMA foreign_keys=ON";
 
-    // db.execSQL(ENABLE_FOREIGN_KEYS);
 
     public Helper() {
         try {
@@ -31,7 +29,6 @@ public class Helper {
             System.err.println("NO JDBC DRIVER");
             e.printStackTrace();
         }
-
         try {
             conn = DriverManager.getConnection(DB_URL);
             stat = conn.createStatement();
@@ -39,20 +36,22 @@ public class Helper {
             System.err.println("NO CONNECTION AVAILABLE");
             e.printStackTrace();
         }
-        // createAllTables();
-        //    resetAllTables();
+        createAllTables();
+        //   resetAllTables();
+        // resetOrdersTable();
     }
-// Creating and reseting all tables
+// Creating and reseting  tables
 
     public boolean createAllTables() {
         String createCourses = "CREATE TABLE IF NOT EXISTS courses (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), cousine varchar(255), price double)";
         String createDesserts = "CREATE TABLE IF NOT EXISTS desserts (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
         String createDrinks = "CREATE TABLE IF NOT EXISTS drinks (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
-
+        String createOrders = "CREATE TABLE IF NOT EXISTS orders (id INTEGER PRIMARY KEY AUTOINCREMENT, name varchar(255), price double)";
         try {
             stat.execute(createCourses);
             stat.execute(createDesserts);
             stat.execute(createDrinks);
+            stat.execute(createOrders);
         } catch (SQLException e) {
             System.err.println("Table Creation Error");
             e.printStackTrace();
@@ -66,10 +65,24 @@ public class Helper {
         String resetCourses = "DROP TABLE IF EXISTS courses";
         String resetDesserts = "DROP TABLE IF EXISTS desserts";
         String resetDrinks = "DROP TABLE IF EXISTS drinks";
+        String resetOrders = "DROP TABLE IF EXISTS orders";
         try {
             stat.execute(resetCourses);
             stat.execute(resetDesserts);
             stat.execute(resetDrinks);
+            stat.execute(resetOrders);
+        } catch (SQLException e) {
+            System.err.println("Table Creation Error");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public boolean resetOrdersTable() {
+        String resetOrders = "DROP TABLE IF EXISTS orders";
+        try {
+            stat.execute(resetOrders);
         } catch (SQLException e) {
             System.err.println("Table Creation Error");
             e.printStackTrace();
@@ -99,7 +112,6 @@ public class Helper {
         try {
             PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM courses WHERE name = ?");
             prepStmt.setString(1, name);
-
             prepStmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Course insert Error");
@@ -108,7 +120,6 @@ public class Helper {
         }
 
     }
-
 
     public List<Course> selectCourses() {
         List<Course> courses = new LinkedList<Course>();
@@ -136,18 +147,13 @@ public class Helper {
 
     }
 
-
     public Course selectCourseByName(String name) {
         Course course = null;
         try {
-
-
             ResultSet result = stat.executeQuery("SELECT * FROM courses WHERE name = '" + name + "'");
-
             int id;
             String cousine;
             double price;
-
             while (result.next()) {
                 id = result.getInt("id");
                 name = result.getString("name");
@@ -166,6 +172,31 @@ public class Helper {
 
     }
 
+    public Course selectCourseById(int id) {
+        Course course = null;
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM courses WHERE id = '" + id + "'");
+            String name;
+            String cousine;
+            double price;
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                cousine = result.getString("cousine");
+                price = result.getDouble("price");
+                course = new Course(id, name, cousine, price);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        return course;
+
+
+    }
+//Desserts
 
     public boolean insertDessert(String name, double price) {
         try {
@@ -185,7 +216,6 @@ public class Helper {
         try {
             PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM desserts WHERE name = ?");
             prepStmt.setString(1, name);
-
             prepStmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Course insert Error");
@@ -205,15 +235,11 @@ public class Helper {
             while (result.next()) {
                 id = result.getInt("id");
                 name = result.getString("name");
-
                 price = result.getDouble("price");
                 desserts.add(new Dessert(id, name, price));
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-
             return null;
         }
         return desserts;
@@ -223,29 +249,39 @@ public class Helper {
     public Dessert selectDessertByName(String name) {
         Dessert dessert = null;
         try {
-
-
             ResultSet result = stat.executeQuery("SELECT * FROM desserts WHERE name = '" + name + "'");
-
             int id;
-
             double price;
-
             while (result.next()) {
                 id = result.getInt("id");
                 name = result.getString("name");
                 price = result.getDouble("price");
                 dessert = new Dessert(id, name, price);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-
         return dessert;
+    }
 
-
+    public Dessert selectDessertById(int id) {
+        Dessert dessert = null;
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM desserts WHERE id = '" + id + "'");
+            String name;
+            double price;
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                price = result.getDouble("price");
+                dessert = new Dessert(id, name, price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return dessert;
     }
 
 
@@ -275,35 +311,120 @@ public class Helper {
             while (result.next()) {
                 id = result.getInt("id");
                 name = result.getString("name");
-
                 price = result.getDouble("price");
                 drinks.add(new Drink(id, name, price));
-
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
-
             return null;
         }
         return drinks;
 
     }
 
+    public Drink selectDrinkByName(String name) {
+        Drink drink = null;
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM drinks WHERE name = '" + name + "'");
+            int id;
+            double price;
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                price = result.getDouble("price");
+                drink = new Drink(id, name, price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return drink;
+    }
+
+    public Drink selectDrinkById(int id) {
+        Drink drink = null;
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM drinks WHERE id = '" + id + "'");
+            String name;
+            double price;
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+                price = result.getDouble("price");
+                drink = new Drink(id, name, price);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return drink;
+    }
+
     public void deleteDrinks(String name) {
         try {
             PreparedStatement prepStmt = conn.prepareStatement("DELETE FROM drinks WHERE name = ?");
             prepStmt.setString(1, name);
-
             prepStmt.executeUpdate();
         } catch (SQLException e) {
             System.err.println("Drinks insert Error");
             e.printStackTrace();
 
         }
+    }
+
+    // Orders
+    public boolean insertOrder(String name, double price) {
+        try {
+            PreparedStatement prepStmt = conn.prepareStatement("INSERT INTO orders values (NULL, ?, ?);");
+            prepStmt.setString(1, name);
+            prepStmt.setDouble(2, price);
+            prepStmt.execute();
+        } catch (SQLException e) {
+            System.err.println("Order insert Error");
+            e.printStackTrace();
+            return false;
+        }
+        return true;
+    }
+
+    public List<Order> selectOrders() {
+        List<Order> orders = new LinkedList<Order>();
+        try {
+            ResultSet result = stat.executeQuery("SELECT * FROM orders ");
+            int id;
+            String name;
+            double price;
+            while (result.next()) {
+                id = result.getInt("id");
+                name = result.getString("name");
+
+                price = result.getDouble("price");
+                orders.add(new Order(id, name, price));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return orders;
 
     }
 
+    public double calcBill() {
+        double bill = 0.0;
+        try {
+            ResultSet result = stat.executeQuery("SELECT SUM (price) AS pay FROM orders ");
+            while (result.next()) {
+                bill = result.getDouble("pay");
+                bill = Math.round(bill * 100);
+                bill = bill / 100;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return bill;
+    }
 
     public void closeConnection() {
         try {

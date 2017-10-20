@@ -3,7 +3,9 @@ package restaurant;
 import helper.Helper;
 import model.Course;
 import model.Dessert;
+import model.Drink;
 import model.Order;
+import people.Customer;
 import people.Manager;
 import people.Waiter;
 
@@ -36,59 +38,11 @@ public class Demo {
         //  manager.removeFromMenuByName("pizza");
 
 
-        //  waiter.presentCourses();
-        // waiter.presentDesserts();
-        //   waiter.presentDrinks();
-        //  waiter.presentCousine();
-
-
-        String name = null;
-        double price = 0;
-        Order order = new Order(name, price);
-
-        List<Order> yourOrder = new ArrayList<Order>();
-
-
-        boolean stillOrdering = false;
-        System.out.println("Still ordering");
-        Scanner sc = new Scanner(System.in);
-        String orderStatus = sc.nextLine();
-        if (orderStatus.equals("y")) {
-            stillOrdering = true;
-        }
-        while (stillOrdering) {
 
 
 
+         waiter.makeAnOrder();
 
-            int casenumb = 2;
-            switch (casenumb) {
-                case 1:
-                    casenumb = 1;
-                    Course course = helper.selectCourseByName("bigos");
-                    order.setName(course.getName());
-                    order.setPrice(course.getPrice());
-                    yourOrder.add(order);
-                    System.out.println("You have ordered :" + "" + course);
-                    break;
-
-                case 2:
-                    casenumb = 2;
-                    Dessert dessert = helper.selectDessertByName("tiramisu");
-                    order.setName(dessert.getName());
-                    order.setPrice(dessert.getPrice());
-                    yourOrder.add(order);
-                    System.out.println("You have ordered :" + "" + dessert);
-                    break;
-
-
-            }
-            break;
-        }
-
-        for (int i = 0; i < yourOrder.size(); i++) {
-            System.out.println(order.getName());
-        }
 
         helper.closeConnection();
     }

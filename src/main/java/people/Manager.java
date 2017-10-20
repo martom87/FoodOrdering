@@ -22,11 +22,6 @@ public class Manager extends Waiter {
         helper.insertDrink(name, price);
     }
 
-
-
-
-
-
     public void removeFromMenuByName(String name) {
         helper.deleteCourseByName(name);
     }
