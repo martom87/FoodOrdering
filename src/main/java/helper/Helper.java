@@ -33,9 +33,9 @@ public class Helper {
             System.err.println("NO CONNECTION AVAILABLE");
             e.printStackTrace();
         }
-        createAllTables();
+      //  createAllTables();
         //   resetAllTables();
-        // resetOrdersTable();
+
     }
 // Creating and reseting  tables
 

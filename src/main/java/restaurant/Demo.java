@@ -41,10 +41,10 @@ public class Demo {
        // manager.removeFromMenuByName("pizza");
 
 
-          waiter.makeAnOrder();
-
-
-
+     //     waiter.makeAnOrder();
+        //manager.destroyExampleMenu();
+      //  manager.createExampleMenu();
+waiter.presentCourses();
         helper.closeConnection();
     }
 }

@@ -144,6 +144,7 @@ public class Waiter {
                 case 4:
                     casenumb = 4;
                     stillOrdering = 2;
+                    System.out.println("-----------------------");
                     waiter.presentOrder();
                     System.out.println("-----------------------");
                     System.out.println("-----------------------");
