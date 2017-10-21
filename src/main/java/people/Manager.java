@@ -2,10 +2,9 @@ package people;
 
 import helper.Helper;
 
-import java.util.Scanner;
+
 
 public class Manager extends Waiter {
-
 
 
     public Manager(Helper helper) {
@@ -32,7 +31,6 @@ public class Manager extends Waiter {
     public void removeCourseByName(String name) {
         helper.deleteCourseByName(name);
     }
-
 
 
     public void createExampleMenu() {

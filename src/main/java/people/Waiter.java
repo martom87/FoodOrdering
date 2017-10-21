@@ -63,7 +63,7 @@ public class Waiter {
     public void showPossibleOperations() {
         System.out.println("-------------------------------------------------------------------");
         System.out.println();
-        System.out.println("Would you like to do ?" + " " + "Please select the number from the list below:");
+        System.out.println("What would you like to do now ?" + " " + "Please select the number from the list below:");
         System.out.println();
         System.out.println("-------------------------------------------------------------------");
         System.out.println("1" + " " + " " + "->" + "Order a main course");
@@ -84,14 +84,14 @@ public class Waiter {
 
             waiter.showPossibleOperations();
             Customer customer = new Customer(sc);
-            int casenumb = customer.doSomething();
+            int casenumb = customer.saySomething();
             switch (casenumb) {
 
                 case 1:
                     casenumb = 1;
                     System.out.println(" Please select number of course you would like to eat from the list below ");
                     waiter.presentCourses();
-                    int idCourse = sc.nextInt();
+                    int idCourse = customer.saySomething();
                     Course course = helper.selectCourseById(idCourse);
                     helper.insertOrder(course.getName(), course.getPrice());
                     System.out.println("You have ordered :" + "" + course);
@@ -101,7 +101,7 @@ public class Waiter {
                     casenumb = 2;
                     System.out.println("Please select number of dessert you would like to eat from the list below");
                     waiter.presentDesserts();
-                    int idDessert = sc.nextInt();
+                    int idDessert = customer.saySomething();
                     Dessert dessert = helper.selectDessertById(idDessert);
                     helper.insertOrder(dessert.getName(), dessert.getPrice());
                     System.out.println("You have ordered :" + "" + dessert);
@@ -111,14 +111,19 @@ public class Waiter {
                     casenumb = 3;
                     System.out.println("Please select number of drink you would like to eat from the list below");
                     waiter.presentDrinks();
-                    int idDrink = sc.nextInt();
+                    int idDrink = customer.saySomething();
                     Drink drink = helper.selectDrinkById(idDrink);
                     helper.insertOrder(drink.getName(), drink.getPrice());
                     System.out.println("You have ordered :" + "" + drink);
                     // ice or lemon
+                    System.out.println("------------------------------------------------------");
                     System.out.println("Would you like lemon or ice to your " + drink.getName());
+                    System.out.println("------------------------------------------------------");
+                    System.out.println("1" + "->" + "lemon please");
+                    System.out.println("2" + "->" + "ice please");
+                    System.out.println("3" + "->" + "No Thanks");
 
-                    int wantIceorLemon = sc.nextInt();
+                    int wantIceorLemon = customer.saySomething();
                     switch (wantIceorLemon) {
 
                         case 1:
@@ -149,6 +154,9 @@ public class Waiter {
                     System.out.println("-----------------------");
                     System.out.println("-----------------------");
                     System.out.println("Your Bill is" + ":" + helper.calcBill() + " " + "PLN");
+                    System.out.println("----------------------------");
+                    System.out.println("Thanke you very much indeed!");
+                    System.out.println("Good Bye and See you Again!");
                     helper.resetOrdersTable();
                     sc.close();
 
