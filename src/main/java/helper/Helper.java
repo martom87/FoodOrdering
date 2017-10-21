@@ -1,22 +1,19 @@
 package helper;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import model.*;
+
+import java.sql.*;
 import java.util.LinkedList;
 import java.util.List;
-
-import model.*;
 
 public class Helper {
     private Connection conn;
     private Statement stat;
 
+
     public static final String DRIVER = "org.sqlite.JDBC";
     public static final String DB_URL = "jdbc:sqlite:helper.db";
+
 
 
     public Helper() {
@@ -33,7 +30,7 @@ public class Helper {
             System.err.println("NO CONNECTION AVAILABLE");
             e.printStackTrace();
         }
-      //  createAllTables();
+        //  createAllTables();
         //   resetAllTables();
 
     }
@@ -406,6 +403,7 @@ public class Helper {
         }
         return addition;
     }
+
     // Orders
     public boolean insertOrder(String name, double price) {
         try {
@@ -415,6 +413,7 @@ public class Helper {
             prepStmt.execute();
         } catch (SQLException e) {
             System.err.println("Order insert Error");
+            System.out.println("Data base is empty");
             e.printStackTrace();
             return false;
         }
@@ -451,7 +450,7 @@ public class Helper {
             while (result.next()) {
                 bill = result.getDouble("pay");
                 bill = Math.round(bill * 100);
-                bill = bill / 100;
+                bill = (bill / 100);
             }
         } catch (SQLException e) {
             e.printStackTrace();

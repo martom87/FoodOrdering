@@ -1,5 +1,6 @@
 package people;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Scanner;
 
@@ -52,6 +53,7 @@ public class Waiter {
         }
     }
 
+
     public void presentOrder() {
         orders = helper.selectOrders();
         System.out.println("You have Ordered" + ":");
@@ -59,6 +61,7 @@ public class Waiter {
             System.out.println(order);
         }
     }
+
 
     public void showPossibleOperations() {
         System.out.println("-------------------------------------------------------------------");
@@ -85,82 +88,88 @@ public class Waiter {
             waiter.showPossibleOperations();
             Customer customer = new Customer(sc);
             int casenumb = customer.saySomething();
-            switch (casenumb) {
+            try {
+                switch (casenumb) {
 
-                case 1:
-                    casenumb = 1;
-                    System.out.println(" Please select number of course you would like to eat from the list below ");
-                    waiter.presentCourses();
-                    int idCourse = customer.saySomething();
-                    Course course = helper.selectCourseById(idCourse);
-                    helper.insertOrder(course.getName(), course.getPrice());
-                    System.out.println("You have ordered :" + "" + course);
-                    break;
+                    case 1:
+                        casenumb = 1;
+                        System.out.println(" Please select number of course you would like to eat from the list below ");
+                        waiter.presentCourses();
+                        int idCourse = customer.saySomething();
+                        Course course = helper.selectCourseById(idCourse);
+                        helper.insertOrder(course.getName(), course.getPrice());
+                        System.out.println("You have ordered :" + "" + course);
+                        break;
 
-                case 2:
-                    casenumb = 2;
-                    System.out.println("Please select number of dessert you would like to eat from the list below");
-                    waiter.presentDesserts();
-                    int idDessert = customer.saySomething();
-                    Dessert dessert = helper.selectDessertById(idDessert);
-                    helper.insertOrder(dessert.getName(), dessert.getPrice());
-                    System.out.println("You have ordered :" + "" + dessert);
-                    break;
+                    case 2:
+                        casenumb = 2;
+                        System.out.println("Please select number of dessert you would like to eat from the list below");
+                        waiter.presentDesserts();
+                        int idDessert = customer.saySomething();
+                        Dessert dessert = helper.selectDessertById(idDessert);
+                        helper.insertOrder(dessert.getName(), dessert.getPrice());
+                        System.out.println("You have ordered :" + "" + dessert);
+                        break;
 
-                case 3:
-                    casenumb = 3;
-                    System.out.println("Please select number of drink you would like to eat from the list below");
-                    waiter.presentDrinks();
-                    int idDrink = customer.saySomething();
-                    Drink drink = helper.selectDrinkById(idDrink);
-                    helper.insertOrder(drink.getName(), drink.getPrice());
-                    System.out.println("You have ordered :" + "" + drink);
-                    // ice or lemon
-                    System.out.println("------------------------------------------------------");
-                    System.out.println("Would you like lemon or ice to your " + drink.getName());
-                    System.out.println("------------------------------------------------------");
-                    System.out.println("1" + "->" + "lemon please");
-                    System.out.println("2" + "->" + "ice please");
-                    System.out.println("3" + "->" + "No Thanks");
+                    case 3:
+                        casenumb = 3;
+                        System.out.println("Please select number of drink you would like to eat from the list below");
+                        waiter.presentDrinks();
+                        int idDrink = customer.saySomething();
+                        Drink drink = helper.selectDrinkById(idDrink);
+                        helper.insertOrder(drink.getName(), drink.getPrice());
+                        System.out.println("You have ordered :" + "" + drink);
+                        // ice or lemon
+                        System.out.println("------------------------------------------------------");
+                        System.out.println("Would you like lemon or ice to your " + drink.getName());
+                        System.out.println("------------------------------------------------------");
+                        System.out.println("1" + "->" + "lemon please");
+                        System.out.println("2" + "->" + "ice please");
+                        System.out.println("3" + "->" + "No Thanks");
 
-                    int wantIceorLemon = customer.saySomething();
-                    switch (wantIceorLemon) {
+                        int wantIceOrLemon = customer.saySomething();
+                        switch (wantIceOrLemon) {
 
-                        case 1:
-                            wantIceorLemon = 1;
-                            Addition addition = helper.selectAdditionById(1);
-                            helper.insertOrder(addition.getName(), addition.getPrice());
-                            System.out.println("You have ordered additional lemon to your " + "" + drink.getName());
-                            break;
-                        case 2:
-                            wantIceorLemon = 2;
-                            addition = helper.selectAdditionById(2);
-                            helper.insertOrder(addition.getName(), addition.getPrice());
-                            System.out.println("You have ordered additional ice to your " + "" + drink.getName());
-                            break;
-                        case 3:
-                            wantIceorLemon = 3;
-                            System.out.println("Your drink has no additions");
-                            break;
-                    }
+                            case 1:
+                                wantIceOrLemon = 1;
+                                Addition addition = helper.selectAdditionById(1);
+                                helper.insertOrder(addition.getName(), addition.getPrice());
+                                System.out.println("You have ordered additional lemon to your " + "" + drink.getName());
+                                break;
+                            case 2:
+                                wantIceOrLemon = 2;
+                                addition = helper.selectAdditionById(2);
+                                helper.insertOrder(addition.getName(), addition.getPrice());
+                                System.out.println("You have ordered additional ice to your " + "" + drink.getName());
+                                break;
+                            case 3:
+                                wantIceOrLemon = 3;
+                                System.out.println("Your drink has no additions");
+                                break;
+                        }
 
-                    break;
+                        break;
 
-                case 4:
-                    casenumb = 4;
-                    stillOrdering = 2;
-                    System.out.println("-----------------------");
-                    waiter.presentOrder();
-                    System.out.println("-----------------------");
-                    System.out.println("-----------------------");
-                    System.out.println("Your Bill is" + ":" + helper.calcBill() + " " + "PLN");
-                    System.out.println("----------------------------");
-                    System.out.println("Thanke you very much indeed!");
-                    System.out.println("Good Bye and See you Again!");
-                    helper.resetOrdersTable();
-                    sc.close();
+                    case 4:
 
+                        DecimalFormat df = new DecimalFormat("#.00");
+                        stillOrdering = 2;
+                        System.out.println("-----------------------");
+                        waiter.presentOrder();
+                        System.out.println("-----------------------");
+                        System.out.println("-----------------------");
+                        System.out.println("Your Bill is" + ":" + df.format(helper.calcBill()) + " " + "PLN");
+                        System.out.println("----------------------------");
+                        System.out.println("Thank you very much indeed!");
+                        System.out.println("Good Bye and See you Again!");
+                        helper.resetOrdersTable();
+                        sc.close();
 
+                }
+            } catch (NullPointerException ex) {
+                System.out.println("THE MENU IS EMPTY !!! ");
+                System.out.println("CALL THE MANAGER TO ADD ITEMS TO MENU!!!");
+                break;
             }
 
         }
