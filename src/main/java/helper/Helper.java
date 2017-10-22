@@ -15,7 +15,6 @@ public class Helper {
     public static final String DB_URL = "jdbc:sqlite:helper.db";
 
 
-
     public Helper() {
         try {
             Class.forName(Helper.DRIVER);
@@ -30,8 +29,6 @@ public class Helper {
             System.err.println("NO CONNECTION AVAILABLE");
             e.printStackTrace();
         }
-        //  createAllTables();
-        //   resetAllTables();
 
     }
 // Creating and reseting  tables

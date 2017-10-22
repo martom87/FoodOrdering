@@ -31,25 +31,6 @@ public class Customer {
         return userInput;
     }
 
-    public int saySomething2() {
-        boolean inputError = true;
-        int userInput2 = 0;
-        while (inputError) {
-            Scanner sc2 = new Scanner(System.in);
-            if (sc.hasNextInt()) {
-                inputError = false;
-            }
-            try {
-
-                userInput2 = sc2.nextInt();
-            } catch (InputMismatchException wrongData) {
-                System.out.println("ONLY INTEGER NUMBERS CAN BE TYPED");
-                System.out.println("Please type again :)");
-            }
-        }
-        return userInput2;
-    }
-
 
 }
 

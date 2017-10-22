@@ -3,6 +3,7 @@ package people;
 import helper.Helper;
 import model.Course;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 
@@ -57,7 +58,7 @@ public class Manager extends Waiter {
                     System.out.println("Add Course cousine");
                     String cousineName = menuInLines.nextLine();
                     System.out.println("Add Course price");
-                    double coursePrice = menuInPrice.nextDouble();
+                    double coursePrice = setPriceManually();
                     addCourseToMenu(courseName, cousineName, coursePrice);
                     break;
                 case 2:
@@ -65,7 +66,7 @@ public class Manager extends Waiter {
                     System.out.println("Add Dessert name");
                     String DessertName = menuInLines.nextLine();
                     System.out.println("Add Dessert price");
-                    double DessertPrice = menuInPrice.nextDouble();
+                    double DessertPrice = setPriceManually();
                     addDessertToMenu(DessertName, DessertPrice);
                     break;
                 case 3:
@@ -73,7 +74,7 @@ public class Manager extends Waiter {
                     System.out.println("Add Drink name");
                     String Drinkname = menuInLines.nextLine();
                     System.out.println("Add Drink price");
-                    double DrinkPrice = menuInPrice.nextDouble();
+                    double DrinkPrice = setPriceManually();
                     addDrinkToMenu(Drinkname, DrinkPrice);
                     break;
                 case 4:
@@ -81,7 +82,7 @@ public class Manager extends Waiter {
                     System.out.println("Add Addition name");
                     String additionName = menuInLines.nextLine();
                     System.out.println("Add Addition price");
-                    double additionPrice = menuInPrice.nextDouble();
+                    double additionPrice = setPriceManually();
                     addAdditionToMenu(additionName, additionPrice);
                     break;
                 case 5:
@@ -139,6 +140,26 @@ public class Manager extends Waiter {
     public void destroyExampleMenu() {
         helper.resetAllTables();
         System.out.println("The Menu is Empty Now");
+    }
+
+    public double setPriceManually() {
+        double price = 0;
+        boolean inputError = true;
+        while (inputError) {
+            Scanner menuInPrice = new Scanner(System.in);
+            if (menuInPrice.hasNextDouble()) {
+                inputError = false;
+            }
+            try {
+                price = menuInPrice.nextDouble();
+
+            } catch (InputMismatchException e) {
+                System.out.println("Price must be a number !");
+                System.out.println("Try to change use . or , signs, depending on your system settings");
+            }
+        }
+        return price;
+
     }
 
 }
