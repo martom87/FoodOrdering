@@ -1,9 +1,6 @@
 package model;
 
-import java.math.BigDecimal;
-
 public class Dessert {
-
 
     int id;
     String name;
@@ -42,5 +39,6 @@ public class Dessert {
     @Override
     public String toString() {
         return "[" + id + "] - " + name + "  - " + price + " " + "PLN";
+
     }
 }

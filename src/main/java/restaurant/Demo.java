@@ -62,7 +62,7 @@ public class Demo {
                         break;
                 }
 
-            break;
+                break;
 
         }
         helper.closeConnection();

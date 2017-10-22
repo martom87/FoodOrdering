@@ -39,6 +39,10 @@ public class Order {
 
     @Override
     public String toString() {
-        return "[" + id + "] - " + name + "  - " + price + " " + "PLN";
+        if (getPrice() == 0) {
+            return "[" + id + "] - " + name + "  - " + "out of charge";
+        } else {
+            return "[" + id + "] - " + name + "  - " + price + " " + "PLN";
+        }
     }
 }
